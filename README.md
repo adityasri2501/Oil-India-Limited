@@ -12,6 +12,12 @@ docker compose up --build
 
 Open `http://localhost:5173`. The API and OpenAPI page are at `http://localhost:8000` and `http://localhost:8000/docs`. Compose uses a persistent SQLite volume for saved scenarios and imported NWIS event records. For local development, start the API from `backend` with `python -m uvicorn app.main:app --reload --port 8000`, then run `npm ci && npm run dev` in `frontend`.
 
+## GitHub Pages demo
+
+The repository includes a GitHub Actions workflow that builds and publishes the Vite frontend when changes are pushed to `main` (or when run manually). In the repository, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**. The published site will use `https://adityasri2501.github.io/Oil-India-Limited/`.
+
+GitHub Pages serves static files and cannot host the FastAPI service. Until a backend is deployed to a public HTTPS host, the page shows a clear API connection message; simulator-backed pages need that API. After deploying the backend, add a repository Actions variable named `VITE_API_BASE_URL` under **Settings → Secrets and variables → Actions → Variables**. Set it to the backend origin only (for example, `https://your-api.example.com`, without `/api` or a trailing slash), allow the Pages origin in backend CORS, then rerun **Actions → Deploy PS120 frontend to GitHub Pages → Run workflow**. Do not put credentials in this frontend variable; keep provider credentials on the backend.
+
 ## Scope
 
 The seeded `BGW-001` well and live telemetry are explicitly synthetic. No proprietary OIL India well telemetry, SCADA feed, authenticated government integration, or operational limit is represented. Government platform adapters return demo fallbacks until access and onboarding are configured. See [architecture](docs/ARCHITECTURE.md), [assumptions](docs/ENGINEERING_ASSUMPTIONS.md), [sources](docs/DATA_SOURCES.md), the detailed [source audit](docs/SOURCE_AUDIT.md), and [model notes](docs/MODEL_DOCUMENTATION.md).
