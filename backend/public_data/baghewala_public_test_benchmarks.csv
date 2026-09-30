@@ -1,0 +1,4 @@
+period,well_scope,test_method,artificial_lift,reported_rate_min_klpd,reported_rate_max_klpd,other_reported_rate,source_page,source_url,training_eligible
+1995,"BGW-1 and BGW-4 (grouped; per-well split not published)","Experimental production test; bottom-hole heater completion","Progressive cavity pump",3,4,"18-25 BOPD also stated by OIL",68,"https://www.oil-india.com/files/oldtender/global/Doc_CJG3289P15.pdf",false
+2009-10,"BGW-1 and BGW-4 (grouped; per-well split not published)","Experimental cold production; chemical stimulation","Sucker-rod pump",4.5,5.5,"25-30 BOPD also stated by OIL",68,"https://www.oil-india.com/files/oldtender/global/Doc_CJG3289P15.pdf",false
+2012,"Punam-1 (nearby structure; not BGW well)","Production test; chemical stimulation","Sucker-rod pump",1.4,1.4,"7.7 BOPD also stated by OIL",68,"https://www.oil-india.com/files/oldtender/global/Doc_CJG3289P15.pdf",false

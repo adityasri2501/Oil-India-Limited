@@ -1,0 +1,24 @@
+services:
+  api:
+    build: ./backend
+    ports: ["8000:8000"]
+    environment:
+      PS120_DB_PATH: /data/ps120.db
+      PS120_DATA_DIR: /data
+      DATAGOV_API_KEY: ${DATAGOV_API_KEY:-}
+      DATAGOV_CRUDE_RESOURCE_ID: ${DATAGOV_CRUDE_RESOURCE_ID:-}
+      BHASHINI_USER_ID: ${BHASHINI_USER_ID:-}
+      BHASHINI_API_KEY: ${BHASHINI_API_KEY:-}
+      BHASHINI_PIPELINE_ID: ${BHASHINI_PIPELINE_ID:-}
+      PS120_3W_DATASET_DIR: /datasets/3w
+    volumes:
+      - "ps120-data:/data"
+      - "./datasets/3w-2.0.0:/datasets/3w:ro"
+  web:
+    build: ./frontend
+    ports: ["5173:5173"]
+    environment:
+      PS120_API_TARGET: http://api:8000
+    depends_on: [api]
+volumes:
+  ps120-data:
