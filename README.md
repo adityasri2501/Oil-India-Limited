@@ -18,6 +18,12 @@ The repository includes a GitHub Actions workflow that builds and publishes the 
 
 GitHub Pages serves static files and cannot host the FastAPI service. Until a backend is deployed to a public HTTPS host, the page shows a clear API connection message; simulator-backed pages need that API. After deploying the backend, add a repository Actions variable named `VITE_API_BASE_URL` under **Settings → Secrets and variables → Actions → Variables**. Set it to the backend origin only (for example, `https://your-api.example.com`, without `/api` or a trailing slash), allow the Pages origin in backend CORS, then rerun **Actions → Deploy PS120 frontend to GitHub Pages → Run workflow**. Do not put credentials in this frontend variable; keep provider credentials on the backend.
 
+### Deploying the API on Vercel
+
+Create a Vercel project from this repository and set **Root Directory** to `backend`. Vercel will use `backend/index.py` as its FastAPI entry point and install `backend/requirements.txt`. After deployment, confirm `https://<your-vercel-domain>/api/health` returns JSON. Then set `VITE_API_BASE_URL` in the GitHub repository Actions variables to `https://<your-vercel-domain>` (origin only) and rerun the Pages workflow.
+
+Vercel Functions are stateless: this demo's in-memory active-well controls and local SQLite scenario/NWIS storage are not durable across instances or redeployments. Use a hosted PostgreSQL service and persistent object storage before relying on saved scenarios, uploaded records, or model training data in a shared deployment. Public datasets stored outside `backend/` are not included when deploying only the backend root.
+
 ## Scope
 
 The seeded `BGW-001` well and live telemetry are explicitly synthetic. No proprietary OIL India well telemetry, SCADA feed, authenticated government integration, or operational limit is represented. Government platform adapters return demo fallbacks until access and onboarding are configured. See [architecture](docs/ARCHITECTURE.md), [assumptions](docs/ENGINEERING_ASSUMPTIONS.md), [sources](docs/DATA_SOURCES.md), the detailed [source audit](docs/SOURCE_AUDIT.md), and [model notes](docs/MODEL_DOCUMENTATION.md).
