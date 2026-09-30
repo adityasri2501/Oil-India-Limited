@@ -2,7 +2,8 @@ import json, os, sqlite3
 from contextlib import closing
 from pathlib import Path
 
-DB_PATH=os.getenv('PS120_DB_PATH','data/ps120.db')
+DEFAULT_DB_PATH = '/tmp/ps120.db' if os.getenv('VERCEL') else 'data/ps120.db'
+DB_PATH=os.getenv('PS120_DB_PATH', DEFAULT_DB_PATH)
 Path(DB_PATH).parent.mkdir(parents=True,exist_ok=True)
 def connect():
     db=sqlite3.connect(DB_PATH); db.execute('CREATE TABLE IF NOT EXISTS scenarios (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, payload TEXT NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)'); db.execute('CREATE TABLE IF NOT EXISTS nwis_events (id INTEGER PRIMARY KEY AUTOINCREMENT, payload TEXT NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)'); db.execute('CREATE TABLE IF NOT EXISTS nwis_wells (id INTEGER PRIMARY KEY AUTOINCREMENT, payload TEXT NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)'); db.commit(); return db
