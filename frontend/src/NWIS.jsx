@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CircleHelp, Database, FileUp, MapPin, Search, ShieldAlert, ExternalLink } from 'lucide-react';
-
-const API='/api';
+import { API } from './api.js';
 const shortType=(type='')=>type.replaceAll('_',' ');
 const severityClass=(level='medium')=>`nwis-sev nwis-${level}`;
 
