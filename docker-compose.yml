@@ -11,9 +11,11 @@ services:
       BHASHINI_API_KEY: ${BHASHINI_API_KEY:-}
       BHASHINI_PIPELINE_ID: ${BHASHINI_PIPELINE_ID:-}
       PS120_3W_DATASET_DIR: /datasets/3w
+      PS120_PUBLIC_SRP_DATASET: /datasets/public-srp/wells_dataset.csv
     volumes:
       - "ps120-data:/data"
       - "./datasets/3w-2.0.0:/datasets/3w:ro"
+      - "./datasets/hf_nk_oil_well_sensor_monitoring:/datasets/public-srp:ro"
   web:
     build: ./frontend
     ports: ["5173:5173"]

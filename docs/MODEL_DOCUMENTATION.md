@@ -12,6 +12,10 @@ The optimizer performs a 64-trial Optuna TPE search seeded with the current CSS/
 
 An optional independent event classifier can be trained from the CC BY 4.0 Petrobras 3W Dataset 2.0.0. It uses per-instance sensor summaries and real `WELL-*` files only, excludes simulated and hand-drawn examples, and partitions by physical well ID. It classifies the dataset's event labels; it is not calibrated to Baghewala, not connected to the BGW risk score, and not a substitute for field failure labels. Its group-holdout metrics measure only the represented offshore wells and classes. See [REAL_DATA_WORKFLOW.md](REAL_DATA_WORKFLOW.md) and [DATA_SOURCES.md](DATA_SOURCES.md) for dataset setup and attribution.
 
+## External SRP telemetry forecast
+
+The bundled Hugging Face NK Field dataset supports a separate next-hour forecast for SPM, pump fillage, minimum rod weight and maximum rod weight. Training pairs require consecutive hourly samples, keep a chronological 20% holdout and compare ExtraTrees MAE with a persistence baseline. Invalid physical-range rows are excluded; the extreme dynamometer-area field is not used. There are no event labels, so this evaluation is forecasting error, not anomaly-detection accuracy or failure prediction. The author-assigned year and provider provenance require independent confirmation. This forecast is not applied to BGW-001, the simulator risk score, CSS, or oil production.
+
 ## XAI / explanation
 
 `/api/explain` emits a rule-based trace of the actual current computed metrics and names the equation chain and caveats. It is not a free-form LLM, and it does not invent operating values. The frontend's AI Copilot view uses this endpoint.

@@ -5,7 +5,7 @@
 - **Frontend:** React + Vite + Tailwind CSS, Recharts and Lucide. The industrial control-room shell provides ten module views over a shared active-well state.
 - **API:** FastAPI + Pydantic. `/api/wells/BGW-001/state` is the shared source of computed state. CSS and SRP control changes are sent to the state API and trigger a full coupled recomputation.
 - **Persistence:** Docker Compose mounts a durable SQLite fallback volume for saved what-if scenarios. This keeps the prototype self-contained; production deployment should replace it with PostgreSQL/PostGIS and migrations.
-- **Numerics:** NumPy implements screening physics. Optuna evaluates each candidate directly with the simulator. The measured-data Random Forest is trained only from user-supplied well observations; it is kept separate from physics screening.
+- **Numerics and ML:** NumPy implements screening physics. Optuna evaluates each candidate directly with the simulator. User-uploaded Baghewala records can train a separate production model. The bundled, author-published Hugging Face NK Field telemetry trains an isolated chronological SRP sensor forecaster; neither external telemetry nor Petrobras 3W is applied to BGW-001.
 - **Telemetry:** REST polling and a WebSocket produce noisy synthetic samples from the active computed state. No SCADA connection is configured.
 
 ## Computation path
@@ -16,7 +16,7 @@ Changing either CSS or SRP controls updates all downstream values. The charts us
 
 ## Contracts and API
 
-Typed Pydantic contracts include `WellState`, `CSSInput`, and `SRPInput`; computation returns reservoir, wellbore/inflow, SRP, production, risk and dynacard outputs. Routes cover wells/state, CSS, SRP, production, risk, optimization, scenarios, telemetry, measured dataset training/prediction, a keyed PPAC/data.gov.in source adapter, integrations and explanations. Scenario records and trained model artifacts persist in the configured data volume.
+Typed Pydantic contracts include `WellState`, `CSSInput`, and `SRPInput`; computation returns reservoir, wellbore/inflow, SRP, production, risk and dynacard outputs. Routes cover wells/state, CSS, SRP, production, risk, optimization, scenarios, telemetry, measured dataset training/prediction, public SRP benchmark training/forecast, a keyed PPAC/data.gov.in source adapter, integrations and explanations. Scenario records and trained model artifacts persist in the configured data volume.
 
 ## Government adapters
 

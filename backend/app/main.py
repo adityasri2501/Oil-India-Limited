@@ -6,7 +6,7 @@ from .models import WellState, CSSInput, SRPInput, ScenarioInput, SweepInput, Op
 from .engine import simulate, optimize
 from . import db
 from .integrations import ADAPTERS
-from . import real_training, threew_training
+from . import real_training, threew_training, public_srp
 from .public_data import baghewala_benchmarks
 from . import nwis
 
@@ -95,6 +95,16 @@ async def train_measured_model(request:Request):
  except (ValueError,UnicodeDecodeError) as exc: raise HTTPException(status_code=422,detail=str(exc))
 @app.get("/api/models/3w/status")
 def threew_model_status(): return threew_training.status()
+@app.get("/api/models/public-srp/status")
+def public_srp_status(): return public_srp.status()
+@app.post("/api/models/public-srp/train")
+def train_public_srp_model():
+ try: return public_srp.train()
+ except ValueError as exc: raise HTTPException(status_code=422,detail=str(exc))
+@app.get("/api/models/public-srp/forecast/{well_id}")
+def public_srp_forecast(well_id:str):
+ try: return public_srp.forecast(well_id)
+ except ValueError as exc: raise HTTPException(status_code=422,detail=str(exc))
 @app.post("/api/models/3w/train")
 def train_threew_model():
  try: return threew_training.train()

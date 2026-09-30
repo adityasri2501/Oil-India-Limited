@@ -12,6 +12,10 @@ The app supports an additional public training source for abnormal-event classif
 
 Download and extract the official archive into `datasets/3w-2.0.0` beside `docker-compose.yml`. Keep the original attribution/license. In Docker Compose, this folder is mounted read-only at `/datasets/3w`. For another location, set `PS120_3W_DATASET_DIR` to the extracted root. Select **Train offshore event model** in Real Data & ML. The trainer reads Parquet files named `WELL-*`, excludes `SIMULATED_*` and `DRAWN_*`, summarizes each episode, and holds out entire physical well IDs to reduce leakage across overlapping records. It reports accuracy, balanced accuracy, macro-F1 and counts; classes missing from training are excluded from the scored holdout and counted separately. Results are sensitive to the limited number of real wells and event-class coverage; this is not an operational risk model.
 
+## Use the bundled public SRP telemetry benchmark
+
+The workspace includes `datasets/hf_nk_oil_well_sensor_monitoring/wells_dataset.csv` from the author-published [Hugging Face dataset](https://huggingface.co/datasets/Arailym-tleubayeva/NK-Oil-Well-Sensor-Monitoring) (Apache-2.0). The file is 12.6 MB and has 186,251 observations; its dataset card reports 7 SRP wells and 3 flowing wells. In **Real Data & ML**, train **Public SRP telemetry** to fit an ExtraTrees next-hour forecast for SPM, fillage and rod loads from chronological hourly data. The page reports holdout MAE and a last-value persistence baseline, and can forecast a selected external well. It does not train BGW-001 or forecast oil production. The source card reports that years were assigned from source-file sequence and flags extreme dynamometer-area values; that field is excluded, and values are range-filtered for model fitting. Source provenance and timestamps must be checked with the data provider before research conclusions, and the dataset is not suitable for operational use.
+
 ## Train with measured well history
 
 Use **Real Data & ML** in the app to upload a CSV. The model parses timestamps and sorts records chronologically. Train one well per file. Required columns and units:
